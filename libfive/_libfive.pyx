@@ -448,8 +448,7 @@ cdef class _Contour2D:
         assert self._points != NULL, "_points is uninitialized"
 
         if (flags & buffer.PyBUF_RECORDS_RO) != buffer.PyBUF_RECORDS_RO:
-            view.obj = <object> NULL
-            raise BufferError()
+            raise BufferError('writable buffer requested from immutable object')
 
         view.buf = self._points
         view.obj = self
@@ -637,8 +636,7 @@ cdef class _Contour3D:
         assert self._points != NULL, "_points is uninitialized"
 
         if (flags & buffer.PyBUF_RECORDS_RO) != buffer.PyBUF_RECORDS_RO:
-            view.obj = <object> NULL
-            raise BufferError()
+            raise BufferError('writable buffer requested from immutable object')
 
         view.buf = self._points
         view.obj = self
@@ -802,8 +800,7 @@ cdef class _Vertices:
         assert self._vertices != NULL, "_vertices is uninitialized"
 
         if (flags & buffer.PyBUF_RECORDS_RO) != buffer.PyBUF_RECORDS_RO:
-            view.obj = <object> NULL
-            raise BufferError()
+            raise BufferError('writable buffer requested from immutable object')
 
         view.buf = self._vertices
         view.obj = self
@@ -873,8 +870,7 @@ cdef class _Triangles:
         assert self._triangles != NULL, "_triangles is uninitialized"
 
         if (flags & buffer.PyBUF_RECORDS_RO) != buffer.PyBUF_RECORDS_RO:
-            view.obj = <object> NULL
-            raise BufferError()
+            raise BufferError('writable buffer requested from immutable object')
 
         view.buf = self._triangles
         view.obj = self
