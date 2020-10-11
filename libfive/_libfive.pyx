@@ -14,7 +14,7 @@ from libc.stdint cimport int32_t, uint32_t, uintptr_t
 from libcpp cimport bool as cpp_bool
 
 
-cdef extern from "<libfive.h>":
+cdef extern from "<libfive.h>" nogil:
     ctypedef const void*_opaque_ptr
 
     struct libfive_interval:
@@ -1376,33 +1376,39 @@ cdef class Compare(BinaryOpTree):
         self._tree = libfive_tree_binary(_compare_op, left._tree, right._tree)
 
 def render_mesh(Tree tree, Region3D region, float resolution):
-    return Mesh.from_libfive_mesh(
-        libfive_tree_render_mesh(
+    cdef libfive_region3 libfive_region = region.to_libfive_region3()
+    cdef libfive_mesh* mesh
+    with nogil:
+        mesh = libfive_tree_render_mesh(
             tree._tree,
-            region.to_libfive_region3(),
+            libfive_region,
             resolution,
         )
-    )
+    return Mesh.from_libfive_mesh(mesh)
 
 def render_slice(Tree tree, Region2D region, float z, float resolution):
-    return _Contours2D.from_libfive_contours(
-        libfive_tree_render_slice(
+    cdef libfive_region2 libfive_region = region.to_libfive_region2()
+    cdef libfive_contours* contours
+    with nogil:
+        contours = libfive_tree_render_slice(
             tree._tree,
-            region.to_libfive_region2(),
+            libfive_region,
             z,
             resolution,
         )
-    )
+    return _Contours2D.from_libfive_contours(contours)
 
 def render_slice_3d(Tree tree, Region2D region, float z, float resolution):
-    return _Contours3D.from_libfive_contours3(
-        libfive_tree_render_slice3(
+    cdef libfive_region2 libfive_region = region.to_libfive_region2()
+    cdef libfive_contours3* contours
+    with nogil:
+        contours = libfive_tree_render_slice3(
             tree._tree,
-            region.to_libfive_region2(),
+            libfive_region,
             z,
             resolution,
         )
-    )
+    return _Contours3D.from_libfive_contours3(contours)
 
 def version_info():
     cdef bytes git_version = libfive_git_version()
