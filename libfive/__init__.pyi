@@ -216,6 +216,9 @@ class UnaryOpTree(Tree):
 class Square(UnaryOpTree): ...
 
 
+class Sqrt(UnaryOpTree): ...
+
+
 class Neg(UnaryOpTree): ...
 
 
