@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "libfive"
-version = "0.1.0a2"
+version = "0.1.0a3"
 description = "libfive bindings for Python"
 authors = ["Sem Mulder <sem@mulderke.net>"]
 license = "MPL2"
